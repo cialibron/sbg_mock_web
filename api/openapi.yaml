@@ -2,9 +2,13 @@ openapi: 3.0.3
 info:
   title: Builders Group API
   version: 0.1.0
+servers:
+  - url: http://localhost:8787
+    description: Local mock server
 paths:
   /api/submit-talk:
     post:
+      operationId: submitTalk
       summary: Submit a Call for Speakers proposal
       requestBody:
         required: true
