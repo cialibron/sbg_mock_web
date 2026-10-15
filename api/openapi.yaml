@@ -92,6 +92,8 @@ components:
           format: date-time
         timezone:
           type: string
+          maxLength: 64
+          pattern: '^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$'
           example: Asia/Manila
         participants:
           type: integer
