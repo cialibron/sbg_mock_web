@@ -21,6 +21,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many attempts. Retry later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     TalkSubmission:
@@ -38,6 +44,8 @@ components:
         - participants
         - creditsRequested
         - codeOfConduct
+        - captchaToken
+        - formStartedAt
       properties:
         speakerName:
           type: string
@@ -90,6 +98,41 @@ components:
         codeOfConduct:
           type: boolean
           enum: [true]
+        credits:
+          type: object
+          description: >
+            Required when creditsRequested is true. Credits are never granted
+            automatically; an organizer approves each request manually.
+          additionalProperties: false
+          required: [costEstimateUsd, durationHours, justification]
+          properties:
+            costEstimateUsd:
+              type: number
+              minimum: 0
+              maximum: 500
+            durationHours:
+              type: number
+              minimum: 0.5
+              maximum: 24
+            justification:
+              type: string
+              minLength: 10
+              maxLength: 500
+        captchaToken:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          description: Token from the Turnstile widget. Verified server-side.
+        website:
+          type: string
+          maxLength: 200
+          description: >
+            Honeypot. Hidden from humans and must stay empty.
+            Bots tend to fill every field.
+        formStartedAt:
+          type: integer
+          minimum: 0
+          description: Epoch milliseconds when the visitor opened the form.
     Error:
       type: object
       required: [error]
