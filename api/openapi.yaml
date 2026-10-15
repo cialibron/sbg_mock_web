@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Builders Group API
+  version: 0.1.0
+paths:
+  /api/submit-talk:
+    post:
+      summary: Submit a Call for Speakers proposal
+      responses:
+        '202':
+          description: Accepted, waiting for email confirmation
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          example: validation_failed
+        fields:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            title: Too long
